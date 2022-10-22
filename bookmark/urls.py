@@ -16,7 +16,7 @@ Including another URLconf
 from re import template
 from django.contrib import admin
 from django.contrib.auth import views as auth
-from django.urls import path
+from django.urls import path, include
 
 from apps.core import views as core
 
@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     path('', core.frontpage, name='frontpage'),
+    path('app/', include('apps.dashboard.urls')),
     path('signup/', core.signup, name='signup'),
     path('login/', auth.LoginView.as_view(template_name='core/login.html'), name='login'),
     path('logout/', auth.LogoutView.as_view(), name='logout'),

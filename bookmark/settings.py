@@ -15,7 +15,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = []
 
 LOGN_URL = 'login'
-LOGIN_REDIRECT_URL = 'frontpage'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'frontpage'
 
 # Application definition
