@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     
     'apps.core',
     'apps.dashboard',
+    'apps.bookmarker',
 ]
 
 MIDDLEWARE = [
