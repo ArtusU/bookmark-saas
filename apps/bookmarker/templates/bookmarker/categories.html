@@ -23,26 +23,28 @@
     {% endif %}
 
     <div class="columns is-multiline">
-            <div class="column is-3">
-                <div class="card card-link">
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4">Dogs Category</p>
-                            </div>
+        {% for category in categories %}
+        <div class="column is-3">
+            <div class="card card-link">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{ category.title }}</p>
                         </div>
-
+                        </div>
+                        
                         <div class="content">
-                            All dogs are very funny
+                            {{ category.description }}
                         </div>
                     </div>
-
+                        
                     <footer class="card-footer">
                         <a href="#" class="card-footer-item">View</a>
                         <a href="#" class="card-footer-item">Edit</a>
                     </footer>
                 </div>
             </div>
-    </div>
+        </div>
+        {% endfor %}
 </div>
 {% endblock %}
