@@ -17,6 +17,7 @@
         <div class="navbar-menu">
             {% if request.user.is_authenticated %}
                 <div class="navbar-start">
+                    <a href="{% url 'dashboard' %}" class="navbar-item">Dashboard</a>
                     <a href="{% url 'categories' %}" class="navbar-item">Categories</a>
                 </div>
             {% else %}
