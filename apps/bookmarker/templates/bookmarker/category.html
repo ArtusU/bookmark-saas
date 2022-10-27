@@ -3,9 +3,32 @@
 {% block content %}
 <div class="container">
     <h1 class="title"> {{category.title}}</h1>
+    <p class="subtitle">{{category.description}}</p>
 
-    <p>{{category.description}}</p>
+    <div class="columns is-multiline">
 
-    <p>List links here...</p>
+        <div class="column is-3">
+            {% for bookmark in category.bookmarks.all %}
+            <div class="card card-link">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{ bookmark.title }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="content">
+                        {{ bookmark.description | truncatechars:50}}
+                    </div>
+                </div>
+                
+                <footer class="card-footer">
+                    <a href="{{ bookmark.url }}" class="card-footer-item" target="_blank">Visit</a>
+                    <a href="#" class="card-footer-item">Edit</a>
+                </footer>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}
