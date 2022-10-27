@@ -42,20 +42,21 @@ def category_add(request):
 
 @login_required
 def bookmark_add(request, category_id):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = BookmarkForm(request.POST)
 
         if form.is_valid():
             bookmark = form.save(commit=False)
             bookmark.created_by = request.user
-            bookmark.category = category_id
+            bookmark.category_id = category_id
             bookmark.save()
 
-            return redirect("category", category_id=category_id)
+            return redirect('category', category_id=category_id)
     else:
         form = BookmarkForm()
-
+    
     context = {
-        "form": form,
+        'form': form,
     }
-    return render(request, "bookmarker/bookmark_add.html", context)
+    
+    return render(request, 'bookmarker/bookmark_add.html', context)

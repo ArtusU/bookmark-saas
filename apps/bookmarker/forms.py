@@ -7,7 +7,7 @@ class CategoryForm(ModelForm):
         model = Category
         fields = ['title', 'description']
         
-
+        
 class BookmarkForm(ModelForm):
     class Meta:
         model = Bookmark
