@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 
-from .models import Category
-from .forms import CategoryForm
+from .models import Category, Bookmark
+from .forms import CategoryForm, BookmarkForm
 
 @login_required
 def categories(request):
@@ -41,3 +41,25 @@ def category_add(request):
         'form' : form,
     }
     return render(request, 'bookmarker/category_add.html', context)
+
+
+@login_required
+def bookmark_add(request, category_id):
+    if request.method == 'POST':
+        form =  BookmarkForm(request.POST)
+        
+        if form.is_valid():
+            bookmark = form.save(commit=False)
+            bookmark.created_by = request.user
+            bookmark.category_id = category_id
+            bookmark.save()
+            
+            return redirect('category', category_id=category_id)
+        
+    else:
+        form = BookmarkForm()
+        
+    context = {
+        'form' : form,
+    }
+    return render(request, 'bookmarker/bookmark_add.html', context)

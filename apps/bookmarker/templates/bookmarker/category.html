@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container">
     <h1 class="title"> {{category.title}}</h1>
+    <a href="{% url 'bookmark_add' category.id %}"">Add Bookmark --></a>
     <p class="subtitle">{{category.description}}</p>
 
     <div class="columns is-multiline">
