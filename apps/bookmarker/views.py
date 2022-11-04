@@ -86,3 +86,24 @@ def bookmark_add(request, category_id):
     }
 
     return render(request, "bookmarker/bookmark_add.html", context)
+
+
+@login_required
+def bookmark_edit(request, category_id, bookmark_id):
+    bookmark = Bookmark.objects.filter(created_by=request.user).get(pk=bookmark_id)
+
+    if request.method == 'POST':
+        form = BookmarkForm(request.POST, instance=bookmark)
+
+        if form.is_valid():
+            form.save()
+            return redirect('category', category_id=category_id)
+    else:
+        form = BookmarkForm(instance=bookmark)
+    
+    context = {
+        'form': form,
+        'bookmark': bookmark
+    }
+    
+    return render(request, 'bookmarker/bookmark_edit.html', context)
