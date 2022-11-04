@@ -26,6 +26,7 @@
 
                     <footer class="card-footer">
                         <a href="{{ bookmark.url }}" class="card-footer-item" target="_blank">Visit</a>
+                        <a href="{% url 'bookmark_edit' category.id bookmark.id %}" class="card-footer-item" target="_blank">Edit</a>
                     </footer>
                 </div>
             </div>
