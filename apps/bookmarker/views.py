@@ -44,26 +44,23 @@ def category_add(request):
 def category_edit(request, category_id):
     category = Category.objects.filter(created_by=request.user).get(pk=category_id)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CategoryForm(request.POST, instance=category)
 
         if form.is_valid():
             form.save()
-            return redirect('categories')
+            return redirect("categories")
     else:
         form = CategoryForm(instance=category)
-    
-    context = {
-        'form': form,
-        'category': category
-    }
-    
-    return render(request, 'bookmark/category_edit.html', context)
+
+    context = {"form": form, "category": category}
+
+    return render(request, "bookmarker/category_edit.html", context)
 
 
 @login_required
 def bookmark_add(request, category_id):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = BookmarkForm(request.POST)
 
         if form.is_valid():
@@ -72,12 +69,12 @@ def bookmark_add(request, category_id):
             bookmark.category_id = category_id
             bookmark.save()
 
-            return redirect('category', category_id=category_id)
+            return redirect("category", category_id=category_id)
     else:
         form = BookmarkForm()
-    
+
     context = {
-        'form': form,
+        "form": form,
     }
-    
-    return render(request, 'bookmarker/bookmark_add.html', context)
+
+    return render(request, "bookmarker/bookmark_add.html", context)
