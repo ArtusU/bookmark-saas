@@ -15,7 +15,7 @@
                     <div class="card-content">
                         <div class="media">
                             <div class="media-content">
-                                <p class="title is-4">{{ bookmark.title }}</p>
+                                <a href="{{ bookmark.url }}"><p class="title is-4">{{ bookmark.title }}</p></a>
                             </div>
                         </div>
 
@@ -25,8 +25,9 @@
                     </div>
 
                     <footer class="card-footer">
-                        <a href="{{ bookmark.url }}" class="card-footer-item" target="_blank">Visit</a>
+                        <a href="{{ bookmark.url }}" class="card-footer-item" target="_blank">Watch</a>
                         <a href="{% url 'bookmark_edit' category.id bookmark.id %}" class="card-footer-item" target="_blank">Edit</a>
+                        <a href="{% url 'bookmark_delete' category.id bookmark.id %}" class="card-footer-item" target="_blank">Delete</a>
                     </footer>
                 </div>
             </div>

@@ -107,3 +107,10 @@ def bookmark_edit(request, category_id, bookmark_id):
     }
     
     return render(request, 'bookmarker/bookmark_edit.html', context)
+
+
+@login_required
+def bookmark_delete(request, category_id, bookmark_id):
+    bookmark = Bookmark.objects.filter(created_by=request.user).get(pk=bookmark_id)
+    bookmark.delete()
+    return redirect('category', category_id=category_id)

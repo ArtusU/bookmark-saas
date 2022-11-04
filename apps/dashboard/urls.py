@@ -8,6 +8,7 @@ from apps.bookmarker.views import (
     category_edit,
     category_delete,
     bookmark_edit,
+    bookmark_delete,
 )
 from .views import dashboard
 
@@ -28,5 +29,10 @@ urlpatterns = [
         "categories/<int:category_id>/edit_bookmark/<int:bookmark_id>/",
         bookmark_edit,
         name="bookmark_edit",
+    ),
+    path(
+        "categories/<int:category_id>/delete_bookmark/<int:bookmark_id>/",
+        bookmark_delete,
+        name="bookmark_delete",
     ),
 ]
