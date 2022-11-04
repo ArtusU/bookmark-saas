@@ -59,6 +59,14 @@ def category_edit(request, category_id):
 
 
 @login_required
+def category_delete(request, category_id):
+    category = Category.objects.filter(created_by=request.user).get(pk=category_id)
+    category.delete()
+
+    return redirect("categories")
+
+
+@login_required
 def bookmark_add(request, category_id):
     if request.method == "POST":
         form = BookmarkForm(request.POST)
