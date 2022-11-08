@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .models import Category, Bookmark
@@ -29,6 +30,8 @@ def category_add(request):
             category.created_by = request.user
             category.save()
 
+            messages.success(request, "The category has been added!")
+
             return redirect("categories")
 
     else:
@@ -49,6 +52,7 @@ def category_edit(request, category_id):
 
         if form.is_valid():
             form.save()
+            messages.success(request, "The changes was saved!")
             return redirect("categories")
     else:
         form = CategoryForm(instance=category)
@@ -62,6 +66,7 @@ def category_edit(request, category_id):
 def category_delete(request, category_id):
     category = Category.objects.filter(created_by=request.user).get(pk=category_id)
     category.delete()
+    messages.success(request, 'The category was deleted')
 
     return redirect("categories")
 
@@ -92,25 +97,22 @@ def bookmark_add(request, category_id):
 def bookmark_edit(request, category_id, bookmark_id):
     bookmark = Bookmark.objects.filter(created_by=request.user).get(pk=bookmark_id)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = BookmarkForm(request.POST, instance=bookmark)
 
         if form.is_valid():
             form.save()
-            return redirect('category', category_id=category_id)
+            return redirect("category", category_id=category_id)
     else:
         form = BookmarkForm(instance=bookmark)
-    
-    context = {
-        'form': form,
-        'bookmark': bookmark
-    }
-    
-    return render(request, 'bookmarker/bookmark_edit.html', context)
+
+    context = {"form": form, "bookmark": bookmark}
+
+    return render(request, "bookmarker/bookmark_edit.html", context)
 
 
 @login_required
 def bookmark_delete(request, category_id, bookmark_id):
     bookmark = Bookmark.objects.filter(created_by=request.user).get(pk=bookmark_id)
     bookmark.delete()
-    return redirect('category', category_id=category_id)
+    return redirect("category", category_id=category_id)
