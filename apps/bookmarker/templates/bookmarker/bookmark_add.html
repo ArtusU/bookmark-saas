@@ -5,8 +5,35 @@
     <h1 class="title">Add Bookmark</h1>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn is-primary">Add Bookmark</button>
+        <div class="field">
+            <label class="label">{{ form.title.label_tag }}</label>
+
+            <div class="control">
+                {{ form.title }}
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">{{ form.url.label_tag }}</label>
+
+            <div class="control">
+                {{ form.url }}
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">{{ form.description.label_tag }}</label>
+
+            <div class="control">
+                {{ form.description }}
+            </div>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button type="submit" class="button is-primary">Submit</button>
+            </div>
+        </div>
     </form>
 </div>
 {% endblock %}

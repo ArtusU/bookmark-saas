@@ -5,8 +5,28 @@
     <h1 class="title">Add Category</h1>
     <form method="POST" action=".">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="button is-primary mt-2">Add Category</button>
+        
+        <div class="field">
+            <label class="label">{{ form.title.label_tag }}</label>
+
+            <div class="control">
+                {{ form.title }}
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">{{ form.description.label_tag }}</label>
+
+            <div class="control">
+                {{ form.description }}
+            </div>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button type="submit" class="button is-primary">Save changes</button>
+            </div>
+        </div>
     </form>
 </div>
 {% endblock %}
