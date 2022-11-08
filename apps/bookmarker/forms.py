@@ -17,4 +17,10 @@ class BookmarkForm(ModelForm):
     class Meta:
         model = Bookmark
         fields = ['title', 'description', 'url']
+        
+    def __init__(self,*args, **kwargs):
+        super(BookmarkForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs['class'] = 'input'
+        self.fields['url'].widget.attrs['class'] = 'input'
+        self.fields['description'].widget.attrs['class'] = 'textarea'
     
