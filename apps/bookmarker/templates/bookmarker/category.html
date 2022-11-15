@@ -27,7 +27,7 @@
                     <footer class="card-footer">
                         <a href="{{ bookmark.url }}" class="card-footer-item" target="_blank">Watch</a>
                         <a href="{% url 'bookmark_edit' category.id bookmark.id %}" class="card-footer-item" target="_blank">Edit</a>
-                        <a href="{% url 'bookmark_delete' category.id bookmark.id %}" class="card-footer-item" target="_blank">Delete</a>
+                        <a class="card-footer-item" @click="toggleBookmarkDialog({{bookmark.id}})">Delete</a>
                     </footer>
                 </div>
             </div>
@@ -53,6 +53,26 @@
         </div>
     </div>
 
+    <div class="modal" v-bind:class="{ 'is-active': showBookmarkDialog }">
+        <div class="modal-background"></div>
+
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Are you sure?</p>
+                <button class="delete" aria-label="close" @click="showBookmarkDialog = !showBookmarkDialog"></button>
+            </header>
+
+            <section class="modal-card-body">
+                Are you sure you want to delete the bookmark?
+            </section>
+
+            <footer class="modal-card-foot">
+                <button class="button is-success" @click="deleteBookmark()">Yes, delete</button>
+                <button class="button" @click="showBookmarkDialog = !showBookmarkDialog">Cancel</button>
+            </footer>
+        </div>
+    </div>
+
 
 </div>
 {% endblock %}
@@ -67,12 +87,18 @@
                     message: 'test Artus_U',
                     showDialog: false,
                     category_id: 0,
+                    bookmark_id: 0,
+                    showBookmarkDialog: false,
                 }
             },
             methods: {
                 toggleDialog(id) {
                     this.category_id = id
                     this.showDialog = true
+                },
+                toggleBookmarkDialog(id) {
+                    this.bookmark_id = id
+                    this.showBookmarkDialog = true
                 },
                 deleteCategory() {
                     axios.post('/app/api/delete_category/' + this.category_id + '/')
@@ -82,6 +108,18 @@
                             this.showDialog = false
 
                             window.location.href = '/app/categories/'
+                        })
+                        .catch((function (error) {
+                            console.log(error)
+                        }))
+                },
+                deleteBookmark() {
+                    axios.post('/app/api/delete_bookmark/' + this.bookmark_id + '/')
+                        .then((response) => {
+                            console.log(response)
+
+                            this.showBookmarkDialog = false
+                            this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== this.bookmark_id)
                         })
                         .catch((function (error) {
                             console.log(error)
