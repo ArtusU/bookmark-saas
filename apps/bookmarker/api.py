@@ -10,3 +10,11 @@ def api_delete_category(request, category_id):
     category.delete()
 
     return JsonResponse({"success": True})
+
+
+@csrf_exempt
+def api_delete_bookmark(request, bookmark_id):
+    bookmark = request.user.bookmarks.all().get(pk=bookmark_id)
+    bookmark.delete()
+
+    return JsonResponse({"success": True})
