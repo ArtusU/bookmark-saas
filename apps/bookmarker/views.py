@@ -34,7 +34,6 @@ def category(request, category_id):
         )
 
         bookmarksstring = bookmarksstring + b
-        print(bookmarksstring)
 
     context = {"category": category, "bookmarksstring": bookmarksstring}
 

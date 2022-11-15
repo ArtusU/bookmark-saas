@@ -2,36 +2,47 @@
 
 {% block content %}
 <div class="container" id="delete-category">
-    <h1 class="title">Category | {{category.title}} [[ message ]]</h1>
-    <a @click="toggleDialog({{ category.id }})">DELETE CATEGORY</a>
-    </br>
-    <a href="{% url 'bookmark_add' category.id %}">Add Bookmark --></a>
-    <p class="subtitle">{{category.description}}</p>
 
     <div class="columns is-multiline">
-        {% for bookmark in category.bookmarks.all %}
-            <div class="column is-3">
-                <div class="card card-link">
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <a href="{{ bookmark.url }}"><p class="title is-4">{{ bookmark.title }}</p></a>
-                            </div>
-                        </div>
+        <div class="column is-12">
+            <h1 class="title">{{ category.title }}</h1>
+            <h2 class="subtitle">{{ category.bookmarks.all|length }} bookmark{{ category.bookmarks.all|length|pluralize:"s" }}</h2>
+        </div>
+        <div class="column is-12">
+            <a class="button is-primary" href="{% url 'bookmark_add' category.id %}">Add link</a>
+            <a class="button is-warning" href="{% url 'category_edit' category.id %}">Edit</a>
+            <a class="button is-danger" @click="toggleDialog({{ category.id }})">Delete</a>
+        </div>
+        <div class="column is-12">
+            <p>{{ category.description }}</p>
+        </div>
+    </div>
 
-                        <div class="content">
-                            {{ bookmark.description|truncatechars:50 }}
+    <div class="columns is-multiline">
+        <div class="column is-3" 
+            v-for="bookmark in bookmarks"
+            v-bind:key="bookmark.id">
+
+            <div class="card card-link">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <a href="[[ bookmark.url ]]"><p class="title is-4">[[ bookmark.title ]]</p></a>
                         </div>
                     </div>
 
-                    <footer class="card-footer">
-                        <a href="{{ bookmark.url }}" class="card-footer-item" target="_blank">Watch</a>
-                        <a href="{% url 'bookmark_edit' category.id bookmark.id %}" class="card-footer-item" target="_blank">Edit</a>
-                        <a class="card-footer-item" @click="toggleBookmarkDialog({{bookmark.id}})">Delete</a>
-                    </footer>
+                    <div class="content">
+                        [[ bookmark.description ]]
+                    </div>
                 </div>
+
+                <footer class="card-footer">
+                    <a :href="bookmark.url" class="card-footer-item" target="_blank">Visit</a>
+                    <a :href="bookmark.editurl" class="card-footer-item">Edit</a>
+                    <a class="card-footer-item" @click="toggleBookmarkDialog(bookmark.id)">Delete</a>
+                </footer>
             </div>
-        {% endfor %}
+        </div>
     </div>
     <div class="modal" v-bind:class="{ 'is-active': showDialog }">
         <div class="modal-background"></div>
