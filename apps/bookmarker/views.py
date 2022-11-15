@@ -1,6 +1,7 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 from .models import Category, Bookmark
 from .forms import CategoryForm, BookmarkForm
@@ -15,8 +16,28 @@ def categories(request):
 
 @login_required
 def category(request, category_id):
-    category = get_object_or_404(Category, pk=category_id)
-    context = {"category": category}
+    category = Category.objects.get(pk=category_id)
+
+    bookmarksstring = ""
+    for bookmark in category.bookmarks.all():
+        editurl = reverse("bookmark_edit", args=[category.id, bookmark.id])
+        b = (
+            "{'id': '%s', 'title': '%s', 'url': '%s', 'editurl': '%s', 'description': '%s', 'visits': '%s'},"
+            % (
+                bookmark.id,
+                bookmark.title,
+                bookmark.url,
+                editurl,
+                bookmark.description,
+                bookmark.visits,
+            )
+        )
+
+        bookmarksstring = bookmarksstring + b
+        print(bookmarksstring)
+
+    context = {"category": category, "bookmarksstring": bookmarksstring}
+
     return render(request, "bookmarker/category.html", context)
 
 
@@ -66,7 +87,7 @@ def category_edit(request, category_id):
 def category_delete(request, category_id):
     category = Category.objects.filter(created_by=request.user).get(pk=category_id)
     category.delete()
-    messages.success(request, 'The category was deleted')
+    messages.success(request, "The category was deleted")
 
     return redirect("categories")
 
@@ -81,7 +102,7 @@ def bookmark_add(request, category_id):
             bookmark.created_by = request.user
             bookmark.category_id = category_id
             bookmark.save()
-            messages.success(request, 'The bookmard was added')
+            messages.success(request, "The bookmard was added")
 
             return redirect("category", category_id=category_id)
     else:
@@ -103,7 +124,7 @@ def bookmark_edit(request, category_id, bookmark_id):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'The changes was saved')
+            messages.success(request, "The changes was saved")
             return redirect("category", category_id=category_id)
     else:
         form = BookmarkForm(instance=bookmark)
@@ -117,5 +138,5 @@ def bookmark_edit(request, category_id, bookmark_id):
 def bookmark_delete(request, category_id, bookmark_id):
     bookmark = Bookmark.objects.filter(created_by=request.user).get(pk=bookmark_id)
     bookmark.delete()
-    messages.success(request, 'The bookmark was deleted')
+    messages.success(request, "The bookmark was deleted")
     return redirect("category", category_id=category_id)

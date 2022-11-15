@@ -84,11 +84,13 @@
             delimiters: ['[[', ']]'],
             data () {
                 return {
-                    message: 'test Artus_U',
                     showDialog: false,
                     category_id: 0,
                     bookmark_id: 0,
                     showBookmarkDialog: false,
+                    bookmarks: [
+                        {{ bookmarksstring|safe }}
+                    ]
                 }
             },
             methods: {
