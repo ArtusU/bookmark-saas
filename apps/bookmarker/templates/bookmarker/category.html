@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container" id="delete-category">
     <h1 class="title">Category | {{category.title}} [[ message ]]</h1>
-    <a href="{% url 'category_delete' category.id %}">DELETE CATEGORY</a>
+    <a @click="toggleDialog({{ category.id }})">DELETE CATEGORY</a>
     </br>
     <a href="{% url 'bookmark_add' category.id %}">Add Bookmark --></a>
     <p class="subtitle">{{category.description}}</p>
@@ -33,6 +33,25 @@
             </div>
         {% endfor %}
     </div>
+    <div class="modal" v-bind:class="{ 'is-active': showDialog }">
+        <div class="modal-background"></div>
+
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Are you sure?</p>
+                <button class="delete" aria-label="close" @click="showDialog = !showDialog"></button>
+            </header>
+
+            <section class="modal-card-body">
+                If you delete this category, all bookmarks belonging to it will be deleted as well!
+            </section>
+
+            <footer class="modal-card-foot">
+                <button class="button is-success">Yes, delete</button>
+                <button class="button" @click="showDialog = !showDialog">Cancel</button>
+            </footer>
+        </div>
+    </div>
 
 
 </div>
@@ -45,8 +64,16 @@
             delimiters: ['[[', ']]'],
             data () {
                 return {
-                    message: 'test Artus_U'
+                    message: 'test Artus_U',
+                    showDialog: false,
+                    category_id: 0,
                 }
+            },
+            methods: {
+                toggleDialog(id) {
+                    this.category_id = id
+                    this.showDialog = true
+                },
             }
         })
     </script>
