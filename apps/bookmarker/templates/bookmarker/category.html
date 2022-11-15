@@ -1,8 +1,8 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="container">
-    <h1 class="title">Category | {{category.title}}</h1>
+<div class="container" id="delete-category">
+    <h1 class="title">Category | {{category.title}} [[ message ]]</h1>
     <a href="{% url 'category_delete' category.id %}">DELETE CATEGORY</a>
     </br>
     <a href="{% url 'bookmark_add' category.id %}">Add Bookmark --></a>
@@ -39,4 +39,15 @@
 {% endblock %}
 
 {% block scripts %}
+    <script type="text/javascript">
+        new Vue({
+            el: '#delete-category',
+            delimiters: ['[[', ']]'],
+            data () {
+                return {
+                    message: 'test Artus_U'
+                }
+            }
+        })
+    </script>
 {% endblock %}
