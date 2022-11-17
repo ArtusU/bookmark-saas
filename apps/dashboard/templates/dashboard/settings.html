@@ -9,10 +9,28 @@
 
     </div>
 
+    {% if messages %}
+        {% for message in messages %}
+            <article class="message is-{{ message.tags }}">
+                <div class="message-body">
+                    {{ message }}
+                </div>
+            </article>
+        {% endfor %}
+    {% endif %}
+
     <div class="columns is-multiline">
         <div class="column is-12">
             <form method="post" action="{% url 'settings' %}">
                 {% csrf_token %}
+
+                <div class="field">
+                    <label class="label">Username</label>
+
+                    <div class="control">
+                        <input type="text" class="input" name="username" value="{{ request.user.username }}">
+                    </div>
+                </div>
 
                 <div class="field">
                     <label class="label">First name</label>
@@ -34,7 +52,7 @@
                     <label class="label">E-mail</label>
                     
                     <div class="control">
-                        <input type="email" class="input" name="username" value="{{ request.user.username }}">
+                        <input type="email" class="input" name="email" value="{{ request.user.email }}">
                     </div>
                 </div>
 
