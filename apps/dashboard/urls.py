@@ -11,7 +11,11 @@ from apps.bookmarker.views import (
     bookmark_delete,
 )
 from .views import dashboard, settings
-from apps.bookmarker.api import api_delete_category, api_delete_bookmark
+from apps.bookmarker.api import (
+    api_delete_category,
+    api_delete_bookmark,
+    api_increase_visits,
+)
 
 urlpatterns = [
     path("", dashboard, name="dashboard"),
@@ -46,5 +50,9 @@ urlpatterns = [
         api_delete_bookmark,
         name="api_delete_bookmark",
     ),
-    
+    path(
+        "api/increase_visits/<int:bookmark_id>/",
+        api_increase_visits,
+        name="api_increase_visits",
+    ),
 ]
