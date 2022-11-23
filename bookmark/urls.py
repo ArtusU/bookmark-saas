@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     path('', core.frontpage, name='frontpage'),
+    path('plans/', core.plans, name='plans'),
     path('app/', include('apps.dashboard.urls')),
     path('signup/', core.signup, name='signup'),
     path('login/', auth.LoginView.as_view(template_name='core/login.html'), name='login'),

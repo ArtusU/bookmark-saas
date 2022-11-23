@@ -7,6 +7,9 @@ from django.contrib.auth.forms import UserCreationForm
 def frontpage(request):
     return render(request, 'core/frontpage.html')
 
+def plans(request):
+    return render(request, 'core/plans.html')
+
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
