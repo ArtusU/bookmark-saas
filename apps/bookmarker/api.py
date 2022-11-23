@@ -18,3 +18,12 @@ def api_delete_bookmark(request, bookmark_id):
     bookmark.delete()
 
     return JsonResponse({"success": True})
+
+
+@csrf_exempt
+def api_increase_visits(request, bookmark_id):
+    bookmark = request.user.bookmarks.all().get(pk=bookmark_id)
+    bookmark.visits = bookmark.visits + 1
+    bookmark.save()
+
+    return JsonResponse({"success": True})
