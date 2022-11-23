@@ -27,17 +27,18 @@
                 <div class="card-content">
                     <div class="media">
                         <div class="media-content">
-                            <a href="[[ bookmark.url ]]"><p class="title is-4">[[ bookmark.title ]]</p></a>
+                            <p class="title is-4">[[ bookmark.title ]]</p>
                         </div>
                     </div>
 
                     <div class="content">
-                        [[ bookmark.description ]]
+                        [[ bookmark.description ]]<br>
+                        <b>Visits: </b>[[ bookmark.visits ]]
                     </div>
                 </div>
 
                 <footer class="card-footer">
-                    <a :href="bookmark.url" class="card-footer-item" target="_blank">Visit</a>
+                    <a :href="bookmark.url" @click="increaseVisits(bookmark.id)" class="card-footer-item" target="_blank">Visit</a>
                     <a :href="bookmark.editurl" class="card-footer-item">Edit</a>
                     <a class="card-footer-item" @click="toggleBookmarkDialog(bookmark.id)">Delete</a>
                 </footer>
@@ -138,6 +139,22 @@
                             console.log(error)
                         }))
                 },
+                increaseVisits(bookmark_id) {
+                    axios.post('/app/api/increase_visits/' + bookmark_id + '/')
+                        .then((response) => {
+                            console.log(response)
+
+                            for (let i = 0; i < this.bookmarks.length; i++) {
+                                if (this.bookmarks[i].id === bookmark_id) {
+                                    this.bookmarks[i].visits = parseInt(this.bookmarks[i].visits) + 1
+                                }
+                            }
+
+                        })
+                        .catch((function (error) {
+                            console.log(error)
+                        }))
+                }
             }
         })
     </script>
