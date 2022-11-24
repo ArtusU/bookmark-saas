@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.dashboard',
     'apps.bookmarker',
+    'apps.userprofile',
 ]
 
 MIDDLEWARE = [
