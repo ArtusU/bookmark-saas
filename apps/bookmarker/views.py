@@ -46,9 +46,9 @@ def category_add(request):
 
     categories = request.user.categories.all().count()
 
-    if categories >= 50:
+    if categories >= 50 and request.user.userprofile.plan == 'pro':
         canAdd = 'You can\'t have more than 50 categories when you\'re on a pro plan!'
-    if categories >= 5:
+    if categories >= 5 and request.user.userprofile.plan == 'basic':
         canAdd = 'You can\'t have more than 5 categories when you\'re on the basic plan'
         
     if request.method == "POST":
@@ -103,6 +103,12 @@ def category_delete(request, category_id):
 
 @login_required
 def bookmark_add(request, category_id):
+    canAdd = ''
+    bookmarks = request.user.bookmarks.all().count()
+
+    if bookmarks >= 50 and request.user.userprofile.plan == 'basic':
+        canAdd = 'You can\'t have more than 50 bookmarks when you\'re on the basic plan'
+
     if request.method == "POST":
         form = BookmarkForm(request.POST)
 
@@ -119,6 +125,7 @@ def bookmark_add(request, category_id):
 
     context = {
         "form": form,
+        'canAdd': canAdd
     }
 
     return render(request, "bookmarker/bookmark_add.html", context)
