@@ -3,30 +3,38 @@
 {% block content %}
 <div class="container">
     <h1 class="title">Add Category</h1>
-    <form method="POST" action=".">
-        {% csrf_token %}
-        
-        <div class="field">
-            <label class="label">{{ form.title.label_tag }}</label>
+    {% if canAdd|length == 0 %}
+        <form method="POST" action=".">
+            {% csrf_token %}
+            
+            <div class="field">
+                <label class="label">{{ form.title.label_tag }}</label>
 
-            <div class="control">
-                {{ form.title }}
+                <div class="control">
+                    {{ form.title }}
+                </div>
             </div>
-        </div>
 
-        <div class="field">
-            <label class="label">{{ form.description.label_tag }}</label>
+            <div class="field">
+                <label class="label">{{ form.description.label_tag }}</label>
 
-            <div class="control">
-                {{ form.description }}
+                <div class="control">
+                    {{ form.description }}
+                </div>
             </div>
-        </div>
 
-        <div class="field is-grouped">
-            <div class="control">
-                <button type="submit" class="button is-primary">Save changes</button>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-primary">Save changes</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    {% else %}
+        <article class="message is-danger">
+            <div class="message-body">
+                {{ canAdd }}
+            </div>
+        </article>
+    {% endif %}
 </div>
 {% endblock %}

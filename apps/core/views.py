@@ -6,21 +6,23 @@ from apps.userprofile.models import Userprofile
 
 
 def frontpage(request):
-    return render(request, 'core/frontpage.html')
+    return render(request, "core/frontpage.html")
+
 
 def plans(request):
-    return render(request, 'core/plans.html')
+    return render(request, "core/plans.html")
+
 
 def signup(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = UserCreationForm(request.POST)
 
         if form.is_valid():
             user = form.save()
             login(request, user)
             Userprofile.objects.create(user=user)
-            return redirect('frontpage')
+            return redirect("frontpage")
     else:
         form = UserCreationForm()
-    
-    return render(request, 'core/signup.html', {'form': form})
+
+    return render(request, "core/signup.html", {"form": form})

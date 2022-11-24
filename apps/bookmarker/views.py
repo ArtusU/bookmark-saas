@@ -42,6 +42,15 @@ def category(request, category_id):
 
 @login_required
 def category_add(request):
+    canAdd = ''
+
+    categories = request.user.categories.all().count()
+
+    if categories >= 50:
+        canAdd = 'You can\'t have more than 50 categories when you\'re on a pro plan!'
+    if categories >= 5:
+        canAdd = 'You can\'t have more than 5 categories when you\'re on the basic plan'
+        
     if request.method == "POST":
         form = CategoryForm(request.POST)
 
@@ -59,6 +68,7 @@ def category_add(request):
 
     context = {
         "form": form,
+        'canAdd': canAdd
     }
     return render(request, "bookmarker/category_add.html", context)
 
