@@ -1,11 +1,20 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container" id="add-bookmark">
     <h1 class="title">Add Bookmark</h1>
 
     {% if canAdd|length == 0 %}
-        <form method="POST">
+
+        <article class="message is-danger" v-if="errors.length">
+            <div class="message-body">
+                <p v-for="error in errors">
+                    [[ error ]]
+                </p>
+            </div>
+        </article>
+
+        <form method="POST" action="." v-on:submit="submitForm" novalidate>
             {% csrf_token %}
             <div class="field">
                 <label class="label">{{ form.title.label_tag }}</label>
@@ -45,4 +54,39 @@
         </article>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        new Vue({
+            el: '#add-bookmark',
+            delimiters: ['[[', ']]'],
+            data () {
+                return {
+                    title: '',
+                    url: '',
+                    errors: []
+                }
+            },
+            methods: {
+                submitForm: function(e) {
+                    this.errors = []
+
+                    if (!this.title.length) {
+                        this.errors.push('The title is missing')
+                    }
+
+                    if (!this.url.length) {
+                        this.errors.push('The url is missing')
+                    }
+
+                    if (this.errors.length) {
+                        e.preventDefault()
+
+                        return false
+                    }
+                }
+            }
+        })
+    </script>
 {% endblock %}
