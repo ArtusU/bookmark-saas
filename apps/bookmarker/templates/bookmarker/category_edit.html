@@ -1,9 +1,15 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container" id="edit-category">
     <h1 class="title">Edit Category | {{ category.title }}</h1>
-    <form method="POST" action=".">
+    <article class="message is-danger" v-if="errors.length">
+        <div class="message-body">
+            The title field is missing!
+        </div>
+    </article>
+
+    <form method="POST" action="." v-on:submit="submitForm" novalidate>
         {% csrf_token %}
         <div class="field">
             <label class="label">{{ form.title.label_tag }}</label>
@@ -29,4 +35,32 @@
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        new Vue({
+            el: '#edit-category',
+            delimiters: ['[[', ']]'],
+            data () {
+                return {
+                    title: "{{ form.title.value }}",
+                    errors: []
+                }
+            },
+            methods: {
+                submitForm: function(e) {
+                    this.errors = []
+
+                    if (!this.title.length) {
+                        e.preventDefault()
+
+                        this.errors = ['notitle']
+
+                        return false
+                    }
+                }
+            }
+        })
+    </script>
 {% endblock %}
