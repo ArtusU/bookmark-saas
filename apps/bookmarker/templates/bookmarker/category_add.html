@@ -1,10 +1,16 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container" id="add-category">
     <h1 class="title">Add Category</h1>
     {% if canAdd|length == 0 %}
-        <form method="POST" action=".">
+        <article class="message is-danger" v-if="errors.length">
+            <div class="message-body">
+                The title field is missing!
+            </div>
+        </article>
+
+        <form method="POST" action="." v-on:submit="submitForm" novalidate>
             {% csrf_token %}
             
             <div class="field">
@@ -38,4 +44,32 @@
         </article>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#add-category',
+            delimiters: ['[[', ']]'],
+            data () {
+                return {
+                    title: '',
+                    errors: []
+                }
+            },
+            methods: {
+                submitForm: function(e) {
+                    this.errors = []
+                    if (!this.title.length) {
+                        e.preventDefault()
+
+                        this.errors = ['notitle']
+                        return false
+                    }
+
+                }
+            }
+        })
+    </script>
 {% endblock %}

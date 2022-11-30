@@ -10,6 +10,7 @@ class CategoryForm(ModelForm):
     def __init__(self,*args, **kwargs):
         super(CategoryForm, self).__init__(*args, **kwargs)
         self.fields['title'].widget.attrs['class'] = 'input'
+        self.fields['title'].widget.attrs['v-model'] = 'title'
         self.fields['description'].widget.attrs['class'] = 'textarea'
         
         
