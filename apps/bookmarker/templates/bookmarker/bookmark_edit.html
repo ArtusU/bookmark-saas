@@ -1,9 +1,17 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container" id="edit-bookmark">
     <h1 class="title">Edit Bookmark</h1>
-    <form method="POST">
+    <article class="message is-danger" v-if="errors.length">
+        <div class="message-body">
+            <p v-for="error in errors">
+                [[ error ]]
+            </p>
+        </div>
+    </article>
+
+    <form method="POST" action="." v-on:submit="submitForm" novalidate>
         {% csrf_token %}
         <div class="field">
             <label class="label">{{ form.title.label_tag }}</label>
@@ -36,4 +44,39 @@
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        new Vue({
+            el: '#edit-bookmark',
+            delimiters: ['[[', ']]'],
+            data () {
+                return {
+                    title: "{{ form.title.value }}",
+                    url: "{{ form.url.value }}",
+                    errors: []
+                }
+            },
+            methods: {
+                submitForm: function(e) {
+                    this.errors = []
+
+                    if (!this.title.length) {
+                        this.errors.push('The title is missing')
+                    }
+
+                    if (!this.url.length) {
+                        this.errors.push('The url is missing')
+                    }
+
+                    if (this.errors.length) {
+                        e.preventDefault()
+
+                        return false
+                    }
+                }
+            }
+        })
+    </script>
 {% endblock %}
