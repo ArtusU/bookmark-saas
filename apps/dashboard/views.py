@@ -24,12 +24,14 @@ def dashboard(request):
 def plans(request):
     products = Product.objects.all()[:1]
 
-    context = {
-        'products': products
-    }
+    context = {"products": products}
 
-    return render(request, 'dashboard/plans.html', context)
+    return render(request, "dashboard/plans.html", context)
 
+
+@login_required
+def complete(request):
+    return render(request, "dashboard/complete.html")
 
 
 @login_required
