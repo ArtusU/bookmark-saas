@@ -1,7 +1,14 @@
+import stripe
+import json
+import djstripe
+
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+
+from djstripe.models import Product
 
 
 @login_required
@@ -11,6 +18,18 @@ def dashboard(request):
 
     context = {"bookmarks": bookmarks, "categories": categories}
     return render(request, "dashboard/dashboard.html", context)
+
+
+@login_required
+def plans(request):
+    products = Product.objects.all()[:1]
+
+    context = {
+        'products': products
+    }
+
+    return render(request, 'dashboard/plans.html', context)
+
 
 
 @login_required
