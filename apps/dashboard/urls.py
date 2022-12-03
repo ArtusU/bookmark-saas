@@ -10,7 +10,7 @@ from apps.bookmarker.views import (
     bookmark_edit,
     bookmark_delete,
 )
-from .views import dashboard, settings, plans, complete
+from .views import dashboard, settings, plans, complete, create_sub
 from apps.bookmarker.api import (
     api_delete_category,
     api_delete_bookmark,
@@ -19,6 +19,7 @@ from apps.bookmarker.api import (
 
 urlpatterns = [
     path("", dashboard, name="dashboard"),
+    path("create-sub/", create_sub, name="create_sub"),
     path("settings/", settings, name="settings"),
     path("settings/plans/", plans, name="plans"),
     path("settings/plans/complete/", complete, name="complete"),
