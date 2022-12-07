@@ -46,9 +46,9 @@ def category_add(request):
 
     categories = request.user.categories.all().count()
 
-    if categories >= 50 and request.user.userprofile.plan == 'pro':
+    if categories >= 50 and request.user.userprofile.isPro():
         canAdd = 'You can\'t have more than 50 categories when you\'re on a pro plan!'
-    if categories >= 5 and request.user.userprofile.plan == 'basic':
+    if categories >= 5 and not request.user.userprofile.isPro():
         canAdd = 'You can\'t have more than 5 categories when you\'re on the basic plan'
         
     if request.method == "POST":
@@ -106,7 +106,7 @@ def bookmark_add(request, category_id):
     canAdd = ''
     bookmarks = request.user.bookmarks.all().count()
 
-    if bookmarks >= 50 and request.user.userprofile.plan == 'basic':
+    if bookmarks >= 50 and not request.user.userprofile.isPro():
         canAdd = 'You can\'t have more than 50 bookmarks when you\'re on the basic plan'
 
     if request.method == "POST":

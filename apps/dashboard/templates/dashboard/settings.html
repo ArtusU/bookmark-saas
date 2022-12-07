@@ -6,9 +6,11 @@
         <div class="column is-12">
             <h1 class="title">Settings</h1>
         </div>
+        {% if not request.user.userprofile.isPro == 'active' %}
             <div class="column is-12">
                 <a href="{% url 'plans' %}" class="button is-primary">Plans</a>
             </div>
+        {% endif %}
     </div>
 
     {% if messages %}
